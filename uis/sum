@@ -556,6 +556,7 @@ function library:init()
     makefolder(self.cheatname..'/assets')
     makefolder(self.cheatname..'/'..self.gamename)
     makefolder(self.cheatname..'/'..self.gamename..'/configs');
+    makefolder(self.cheatname..'/'..self.gamename..'/addons');
 
     function self:SetTheme(theme)
         for i,v in next, theme do
@@ -567,6 +568,12 @@ function library:init()
     function self:GetConfig(name)
         if isfile(self.cheatname..'/'..self.gamename..'/configs/'..name..self.fileext) then
             return readfile(self.cheatname..'/'..self.gamename..'/configs/'..name..self.fileext);
+        end
+    end
+
+    function self:GetAddon(name)
+        if isfile(self.cheatname..'/'..self.gamename..'/addons/'..name..self.fileext) then
+            return readfile(self.cheatname..'/'..self.gamename..'/addons/'..name..self.fileext);
         end
     end
 
@@ -4614,16 +4621,26 @@ end
 
 function library:CreateSettingsTab(menu)
     local settingsTab = menu:AddTab('Settings', 999);
-    local configSection = settingsTab:AddSection('Config', 2);
+    local configSection = settingsTab:AddSection('Configs', 2);
     local mainSection = settingsTab:AddSection('Main', 1);
-    local creditsSection = settingsTab:AddSection('Credits', 2);
-    creditsSection:AddSeparator({text = 'Owners/Developers'});
-    creditsSection:AddText({text = "xz#1111"})
-    creditsSection:AddText({text = "goof#1000"})
-    creditsSection:AddSeparator({text = 'Helpers'});
-    creditsSection:AddText({text = "encode#9999"})
-    creditsSection:AddText({text = "Vault#5434"})
+    local addonSection = settingsTab:AddSection('Addons', 2);
 
+    addonSection:AddBox({text = 'Addon Name', flag = 'addoninput'})
+    addonSection:AddList({text = 'Addon', flag = 'selectedaddon'})
+
+    local function refreshAddons()
+        library.options.selectedconfig:ClearValues();
+        for _,v in next, listfiles(self.cheatname..'/'..self.gamename..'/addons') do
+            local ext = '.'..v:split('.')[#v:split('.')];
+            if ext == self.fileext then
+                library.options.selectedconfig:AddValue(v:split('\\')[#v:split('\\')]:sub(1,-#ext-1))
+            end
+        end
+    end
+
+    addonSection:AddButton({text = 'Load', confirm = false, callback = function()
+        library:LoadConfig(library.flags.selectedconfig);
+    end})
 
     configSection:AddBox({text = 'Config Name', flag = 'configinput'})
     configSection:AddList({text = 'Config', flag = 'selectedconfig'})
