@@ -104,7 +104,7 @@ library.themes = {
     {
         name = 'Celestial',
         theme = {
-            ["Accent"]                    = fromrgb(30, 30, 237);
+            ["Accent"]                    = fromrgb(138,119,212);
             ["Background"]                = fromrgb(25,24,26);
             ["Border"]                    = fromrgb(0,0,0);
             ["Border 1"]                  = fromrgb(60,60,60);
@@ -123,7 +123,7 @@ library.themes = {
             ["Option Border 1"]           = fromrgb(50,50,50);
             ["Option Border 2"]           = fromrgb(0,0,0);
             ["Option Background"]         = fromrgb(23,23,23);
-            ["Risky Text"]                = fromrgb(30, 30, 237);
+            ["Risky Text"]                = fromrgb(138, 119, 212);
             ["Risky Text Enabled"]        = fromrgb(255, 41, 41);
         }
     },
